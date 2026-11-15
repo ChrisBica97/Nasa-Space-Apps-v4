@@ -139,12 +139,14 @@ document.addEventListener("click", e => {
     return;
   }
 
-  const toastEl = e.target.closest("#alert-toast-yellow, #alert-toast-red");
+    const toastEl = e.target.closest("#alert-toast-yellow, #alert-toast-red, #alert-toast-vital");
   if (toastEl && activeAlertTarget) {
     const t = activeAlertTarget;
     hideAlert("yellow");
     hideAlert("red");
+    hideAlert("vital");
     activeAlertTarget = null;
+    if (t.cr) S.crew = t.cr.id;
     Nav.go({ tab: t.z.tab, z: t.z.id, p: t.r.p.id });
     return;
   }
