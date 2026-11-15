@@ -38,7 +38,32 @@ function showAlert(kind, html) {
   clearTimeout(alertTimers[kind]);
   alertTimers[kind] = setTimeout(() => hideAlert(kind), ALERT_MS[kind]);
 }
+/* Busca emergencias vitales en los 3 tripulantes */
+function findEmergencies() {
+  const out = [];
+  CREW.forEach(cr => ZONES.forEach(z => {
+    Engine.ev(z, C(S.day, cr), cr.id).rows.forEach(r => {
+      const rules = EMERG[z.id + "." + r.p.id];
+      if (!rules) return;
+      const hit = rules.find(([op, lim]) => op === "lt" ? r.v <= lim : r.v >= lim);
+      if (hit) out.push({ cr, z, r, txt: hit[2] });
+    });
+  }));
+  return out;
+}
 
+function showVital(e) {
+  const el = alertEls().vital;
+  if (!el) return;
+  activeAlertTarget = e;
+  el.innerHTML = `
+    <button type="button" class="alert-x" data-alert-close="vital" aria-label="Descartar emergencia"><span class="icon-close" aria-hidden="true"></span></button>
+    <div class="alert-head"><span>[ ! ] ALERTA CRÍTICA · EMERGENCIA VITAL</span><span class="alert-go">Ir →</span></div>
+    <div class="alert-body">${esc(EMERG_MSG(e.cr.name, e.txt))}</div>
+    <div class="alert-sub mono">${esc(e.z.n)} · ${esc(e.r.p.n)}: ${fmt(e.r.p, e.r.v)} ${esc(e.r.p.u)}</div>
+  `;
+  el.classList.add("on");
+}
 function checkAndTriggerAlerts(force = false) {
   const al = Engine.alerts();
 
