@@ -277,3 +277,37 @@ a {
     transition: none !important;
   }
 }
+
+/* ---------- Íconos dibujados en CSS (sin caracteres especiales) ---------- */
+.icon-menu {
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
+  vertical-align: middle;
+}
+
+.icon-close {
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.icon-close::before,
+.icon-close::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: -1px;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.icon-close::before { transform: rotate(45deg); }
+.icon-close::after { transform: rotate(-45deg); }

@@ -13,29 +13,29 @@ const alertTimers = { yellow: null, red: null };
 
 const alertEls = () => ({ yellow: $("alert-toast-yellow"), red: $("alert-toast-red") });
 
-function hideAlert(level) {
-  const el = alertEls()[level];
-  clearTimeout(alertTimers[level]);
+function hideAlert(kind) {
+  const el = alertEls()[kind];
+  clearTimeout(alertTimers[kind]);
   if (el) el.classList.remove("on", "paused");
 }
 
 /* Muestra el aviso y lo oculta tras ALERT_MS. */
-function showAlert(level, html) {
-  const el = alertEls()[level];
+function showAlert(kind, html) {
+  const el = alertEls()[kind];
   if (!el) return;
 
-  hideAlert(level === "red" ? "yellow" : "red");
+  hideAlert(kind === "red" ? "yellow" : "red");
 
   el.innerHTML = html;
-  el.style.setProperty("--alert-ms", ALERT_MS[level] + "ms");
+  el.style.setProperty("--alert-ms", ALERT_MS[kind] + "ms");
 
   /* reinicia la barra de cuenta regresiva */
   el.classList.remove("on", "paused");
   void el.offsetWidth;
   el.classList.add("on");
 
-  clearTimeout(alertTimers[level]);
-  alertTimers[level] = setTimeout(() => hideAlert(level), ALERT_MS[level]);
+  clearTimeout(alertTimers[kind]);
+  alertTimers[kind] = setTimeout(() => hideAlert(kind), ALERT_MS[kind]);
 }
 
 function checkAndTriggerAlerts(force = false) {
@@ -68,7 +68,7 @@ function triggerYellowAlert(alertObj) {
   activeAlertTarget = alertObj;
   showAlert("yellow", `
     <div class="alert-head">
-      <span>⚠ PRECAUCIÓN [NIVEL AMARILLO]</span>
+      <span>PRECAUCIÓN</span>
       <span class="alert-go">Ir →</span>
     </div>
     <div class="alert-body">${alertValue(alertObj)}</div>
@@ -79,7 +79,7 @@ function triggerYellowAlert(alertObj) {
 function triggerRedAlert(alertObj) {
   activeAlertTarget = alertObj;
   showAlert("red", `
-    <button type="button" class="alert-x" data-alert-close="red" aria-label="Descartar aviso">✕</button>
+    <button type="button" class="alert-x" data-alert-close="red" aria-label="Descartar aviso"><span class="icon-close" aria-hidden="true"></span></button>
     <div class="alert-head">
       <span>[ ! ] ALERTA CRÍTICA</span>
       <span class="alert-go">Ir →</span>
@@ -89,7 +89,7 @@ function triggerRedAlert(alertObj) {
   `);
 }
 
-/* Listener delegado: cerrar aviso, ir a la zona, y botón "Cerrar" del diálogo */
+/* Un solo listener: cerrar aviso, ir a la zona y botón "Cerrar" del diálogo */
 document.addEventListener("click", e => {
   const close = e.target.closest("[data-alert-close]");
   if (close) {
@@ -112,17 +112,17 @@ document.addEventListener("click", e => {
 });
 
 /* Pausa la cuenta regresiva mientras el cursor o el foco están sobre el aviso */
-["yellow", "red"].forEach(level => {
-  const el = alertEls()[level];
+["yellow", "red"].forEach(kind => {
+  const el = alertEls()[kind];
   if (!el) return;
   const pause = () => {
-    clearTimeout(alertTimers[level]);
+    clearTimeout(alertTimers[kind]);
     el.classList.add("paused");
   };
   const resume = () => {
     if (!el.classList.contains("on")) return;
     el.classList.remove("paused");
-    alertTimers[level] = setTimeout(() => hideAlert(level), 2000);
+    alertTimers[kind] = setTimeout(() => hideAlert(kind), 2000);
   };
   el.addEventListener("mouseenter", pause);
   el.addEventListener("mouseleave", resume);

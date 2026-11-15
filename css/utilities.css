@@ -18,7 +18,7 @@
 .dlg-sub { margin: 0 0 12px; color: var(--mu); font-size: 13px; }
 .dlg-foot { justify-content: flex-end; margin-top: 14px; }
 
-/* generadas automáticamente al sustituir los style="..." fijos de los .js */
+/* clases extraídas de los antiguos style="..." fijos de los .js */
 .u-ac-start { align-content: start !important; }
 .u-as-end { align-self: end !important; }
 .u-bd-0 { border: 0 !important; }
@@ -38,8 +38,6 @@
 .u-fw-wrap { flex-wrap: wrap !important; }
 .u-fs-12 { font-size: 12px !important; }
 .u-fs-13 { font-size: 13px !important; }
-.u-fs-18 { font-size: 18px !important; }
-.u-fs-26 { font-size: 26px !important; }
 .u-gap-10 { gap: 10px !important; }
 .u-gap-12 { gap: 12px !important; }
 .u-gap-8 { gap: 8px !important; }
@@ -64,7 +62,6 @@
 .u-mt-8 { margin-top: 8px !important; }
 .u-maxh-150 { max-height: 150px !important; }
 .u-minh-40 { min-height: 40px !important; }
-.u-minw-150 { min-width: 150px !important; }
 .u-op-0 { opacity: 0 !important; }
 .u-ov-visible { overflow: visible !important; }
 .u-ox-auto { overflow-x: auto !important; }

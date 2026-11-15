@@ -30,25 +30,5 @@ const Engine = {
     if (g("reaccion.rt")) m.push("Fatiga neuroconductual: reevaluar o descansar 20 min antes de autorizar tareas de precisión; EVA sin habilitar si el puntaje es 4 o menos.");
     if (g("cognicion.lat") && (g("cognicion.lap") || g("esfuerzo.co2"))) m.push("Posible hipercapnia de cabina: revisar los depuradores de CO₂ antes de atribuirlo a fatiga del tripulante.");
     return m;
-  },
-  gam(cr = crewOf()) {
-    const days = Store.days(cr.id);
-    let xp = 0, tests = 0, cog = 0, rs = 0;
-    Object.values(days).forEach(r => {
-      xp += Object.keys(r.v || {}).length * 5 + Object.keys(r.t || {}).length * 20;
-      tests += Object.keys(r.t || {}).length;
-      cog = Math.max(cog, (r.v || {})["cognicion.cog"] || 0);
-      rs = Math.max(rs, (r.v || {})["reaccion.rs"] || 0);
-    });
-    let st = 0;
-    for (let d = S.day; d >= 0 && days[d]; d--) st++;
-    const b = [
-      ["🚀", "Primer registro", xp > 0],
-      ["🔥", "Racha de 3 días", st >= 3],
-      ["🧠", "Cerebro de acero (≥ 85)", cog >= 85],
-      ["⚡", "Reflejos (≥ 8)", rs >= 8],
-      ["🏅", "5 pruebas completadas", tests >= 5]
-    ];
-    return { xp, lv: Math.floor(xp / 100) + 1, pct: xp % 100, st, b };
   }
 };

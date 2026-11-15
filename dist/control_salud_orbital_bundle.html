@@ -307,20 +307,6 @@ button {
   font-size: 20px;
 }
 
-.xp {
-  height: 6px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, .08);
-  overflow: hidden;
-  min-width: 120px;
-}
-
-.xp i {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #7fb2ff, #9b6bff);
-}
-
 .bd {
   display: inline-flex;
   align-items: center;
@@ -838,6 +824,40 @@ a {
   }
 }
 
+/* ---------- Íconos dibujados en CSS (sin caracteres especiales) ---------- */
+.icon-menu {
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
+  vertical-align: middle;
+}
+
+.icon-close {
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.icon-close::before,
+.icon-close::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: -1px;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.icon-close::before { transform: rotate(45deg); }
+.icon-close::after { transform: rotate(-45deg); }
+
 
 /* css/panel.css — Panel: selector de tripulante y cuadrícula de gráficos. */
 
@@ -912,11 +932,6 @@ a {
 .mini i {
   font-style: normal;
   font-size: 11px;
-}
-
-.lv {
-  font-size: 12px;
-  color: var(--mu);
 }
 
 .cg {
@@ -1238,7 +1253,7 @@ html.lock {
 /* css/alerts.css — Avisos flotantes (amarillo y rojo). */
 
 /* ==========================================================================
-   SISTEMA DE ALERTAS DINÁMICAS (NIVEL AMARILLO Y NIVEL ROJO)
+   ALERTAS: AVISO AMARILLO Y AVISO ROJO
    ========================================================================== */
 
 
@@ -1357,7 +1372,7 @@ html.lock {
 .dlg-sub { margin: 0 0 12px; color: var(--mu); font-size: 13px; }
 .dlg-foot { justify-content: flex-end; margin-top: 14px; }
 
-/* generadas automáticamente al sustituir los style="..." fijos de los .js */
+/* clases extraídas de los antiguos style="..." fijos de los .js */
 .u-ac-start { align-content: start !important; }
 .u-as-end { align-self: end !important; }
 .u-bd-0 { border: 0 !important; }
@@ -1377,8 +1392,6 @@ html.lock {
 .u-fw-wrap { flex-wrap: wrap !important; }
 .u-fs-12 { font-size: 12px !important; }
 .u-fs-13 { font-size: 13px !important; }
-.u-fs-18 { font-size: 18px !important; }
-.u-fs-26 { font-size: 26px !important; }
 .u-gap-10 { gap: 10px !important; }
 .u-gap-12 { gap: 12px !important; }
 .u-gap-8 { gap: 8px !important; }
@@ -1403,7 +1416,6 @@ html.lock {
 .u-mt-8 { margin-top: 8px !important; }
 .u-maxh-150 { max-height: 150px !important; }
 .u-minh-40 { min-height: 40px !important; }
-.u-minw-150 { min-width: 150px !important; }
 .u-op-0 { opacity: 0 !important; }
 .u-ov-visible { overflow: visible !important; }
 .u-ox-auto { overflow-x: auto !important; }
@@ -1423,7 +1435,7 @@ html.lock {
   <div id="toast"></div>
 
   <header class="g">
-    <button class="ib hb" id="hb" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="drawer">☰</button>
+    <button class="ib hb" id="hb" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="drawer"><span class="icon-menu" aria-hidden="true"></span></button>
     <h1>Kinesoft: Asistente Médico de Tripulación</h1>
     <label class="ctl xs">Entorno<select id="env"></select></label>
     <label class="ctl">Día <b id="dd" class="mono val val-day"></b><input type="range" id="day" min="0" max="30" aria-label="Día de misión"></label>
@@ -1437,7 +1449,7 @@ html.lock {
   <aside id="drawer" class="g" inert aria-label="Menú de navegación">
     <div class="dh">
       <b class="mono">NAVEGACIÓN</b>
-      <button class="ib" id="dx" aria-label="Cerrar menú">✕</button>
+      <button class="ib" id="dx" aria-label="Cerrar menú"><span class="icon-close" aria-hidden="true"></span></button>
     </div>
     <div class="mono sec">TRIPULACIÓN</div>
     <div id="crew"></div>
@@ -1713,11 +1725,11 @@ const NO_RISK = 0;
 
 /* ---- 5 peligros del Programa de Investigación Humana de la NASA ---- */
 const HAZARDS = [
-  { n: "Radiación espacial", ic: "☢️", eff: "Daña el ADN, debilita el sistema inmunitario y eleva el riesgo cardiovascular y de cáncer; también afecta la memoria de trabajo.", ind: "Dosímetro personal, hemograma, puntaje cognitivo, HRV.", call: "Dosis acumulada sobre el límite de misión o caída sostenida del puntaje cognitivo.", prev: "Refugiarse en zonas blindadas durante tormentas solares y registrar la dosis a diario.", go: "mente" },
-  { n: "Aislamiento y confinamiento", ic: "🧑‍🚀", eff: "Monotonía, tensión interpersonal, alteraciones del sueño y trastornos del ánimo.", ind: "Ánimo del día (1 a 10), horas de sueño, bitácora.", call: "Ánimo de 3 o menos, caída de 4 puntos, o 7 días seguidos en 5 o 6.", prev: "Videollamadas con la familia, variar tareas y mantener horarios de luz regulados.", go: "mente" },
-  { n: "Distancia de la Tierra", ic: "🌍", eff: "Sin evacuación rápida ni ayuda inmediata: el tripulante debe autoevaluarse y tratar con autonomía.", ind: "Signos vitales, glucosa, temperatura, ecografías guiadas.", call: "En Marte la comunicación demora hasta 22 minutos: las decisiones críticas son locales.", prev: "Botiquín, protocolos claros y esta propia herramienta de autoevaluación.", go: "organos" },
-  { n: "Campos gravitatorios", ic: "🪐", eff: "Pérdida de densidad ósea, atrofia muscular, desacondicionamiento cardiovascular y síndrome neuro-ocular (SANS).", ind: "Densidad ósea (QUS), áreas musculares, FC, vaina del nervio óptico.", call: "T-score por debajo de −1, atrofia de más del 10 % o aumento de la vaina del nervio óptico.", prev: "Ejercicio resistivo ARED, cicloergómetro, vitamina D y control de fluidos.", go: "huesos" },
-  { n: "Entornos cerrados hostiles", ic: "🛰️", eff: "Hipercapnia de cabina, ruido (~60 dB), microbioma alterado y mala nutrición.", ind: "PtcCO₂, sueño, glucosa, temperatura, reacción.", call: "PtcCO₂ mayor a 48 mmHg junto con enlentecimiento psicomotor.", prev: "Revisar depuradores de CO₂, ventilación del compartimento y nutrición equilibrada.", go: "mente" }
+  { n: "Radiación espacial", eff: "Daña el ADN, debilita el sistema inmunitario y eleva el riesgo cardiovascular y de cáncer; también afecta la memoria de trabajo.", ind: "Dosímetro personal, hemograma, puntaje cognitivo, HRV.", call: "Dosis acumulada sobre el límite de misión o caída sostenida del puntaje cognitivo.", prev: "Refugiarse en zonas blindadas durante tormentas solares y registrar la dosis a diario.", go: "mente" },
+  { n: "Aislamiento y confinamiento", eff: "Monotonía, tensión interpersonal, alteraciones del sueño y trastornos del ánimo.", ind: "Ánimo del día (1 a 10), horas de sueño, bitácora.", call: "Ánimo de 3 o menos, caída de 4 puntos, o 7 días seguidos en 5 o 6.", prev: "Videollamadas con la familia, variar tareas y mantener horarios de luz regulados.", go: "mente" },
+  { n: "Distancia de la Tierra", eff: "Sin evacuación rápida ni ayuda inmediata: el tripulante debe autoevaluarse y tratar con autonomía.", ind: "Signos vitales, glucosa, temperatura, ecografías guiadas.", call: "En Marte la comunicación demora hasta 22 minutos: las decisiones críticas son locales.", prev: "Botiquín, protocolos claros y esta propia herramienta de autoevaluación.", go: "organos" },
+  { n: "Campos gravitatorios", eff: "Pérdida de densidad ósea, atrofia muscular, desacondicionamiento cardiovascular y síndrome neuro-ocular (SANS).", ind: "Densidad ósea (QUS), áreas musculares, FC, vaina del nervio óptico.", call: "T-score por debajo de −1, atrofia de más del 10 % o aumento de la vaina del nervio óptico.", prev: "Ejercicio resistivo ARED, cicloergómetro, vitamina D y control de fluidos.", go: "huesos" },
+  { n: "Entornos cerrados hostiles", eff: "Hipercapnia de cabina, ruido (~60 dB), microbioma alterado y mala nutrición.", ind: "PtcCO₂, sueño, glucosa, temperatura, reacción.", call: "PtcCO₂ mayor a 48 mmHg junto con enlentecimiento psicomotor.", prev: "Revisar depuradores de CO₂, ventilación del compartimento y nutrición equilibrada.", go: "mente" }
 ];
 
 const GUIDE = [
@@ -2363,26 +2375,6 @@ const Engine = {
     if (g("reaccion.rt")) m.push("Fatiga neuroconductual: reevaluar o descansar 20 min antes de autorizar tareas de precisión; EVA sin habilitar si el puntaje es 4 o menos.");
     if (g("cognicion.lat") && (g("cognicion.lap") || g("esfuerzo.co2"))) m.push("Posible hipercapnia de cabina: revisar los depuradores de CO₂ antes de atribuirlo a fatiga del tripulante.");
     return m;
-  },
-  gam(cr = crewOf()) {
-    const days = Store.days(cr.id);
-    let xp = 0, tests = 0, cog = 0, rs = 0;
-    Object.values(days).forEach(r => {
-      xp += Object.keys(r.v || {}).length * 5 + Object.keys(r.t || {}).length * 20;
-      tests += Object.keys(r.t || {}).length;
-      cog = Math.max(cog, (r.v || {})["cognicion.cog"] || 0);
-      rs = Math.max(rs, (r.v || {})["reaccion.rs"] || 0);
-    });
-    let st = 0;
-    for (let d = S.day; d >= 0 && days[d]; d--) st++;
-    const b = [
-      ["🚀", "Primer registro", xp > 0],
-      ["🔥", "Racha de 3 días", st >= 3],
-      ["🧠", "Cerebro de acero (≥ 85)", cog >= 85],
-      ["⚡", "Reflejos (≥ 8)", rs >= 8],
-      ["🏅", "5 pruebas completadas", tests >= 5]
-    ];
-    return { xp, lv: Math.floor(xp / 100) + 1, pct: xp % 100, st, b };
   }
 };
 
@@ -2520,7 +2512,7 @@ function viewTests() {
 }
 
 function viewRisks() {
-  return `<div class="g pn" id="hz"><b>Los 5 peligros del Programa de Investigación Humana de la NASA</b><p class="u-c-mu u-fs-13">Cada peligro se traduce en indicadores que el tripulante puede medir. ${esc(ENVS[S.env].note)}</p><div class="rail u-fw-wrap u-ov-visible">${HAZARDS.map(h => `<div class="card u-w-min-100pct-360"><div class="u-fs-26">${h.ic}</div><b>${h.n}</b><p class="u-fs-13 u-c-mu u-m-6-0">${h.eff}</p><details><summary>Indicadores y cuándo pedir ayuda</summary><p><b class="u-c-tx">Indicadores:</b> ${h.ind}</p><p><b class="u-c-tx">Pedir ayuda:</b> ${h.call}</p><p><b class="u-c-tx">Prevención:</b> ${h.prev}</p></details><button class="btn o sm u-mt-8" data-go="${h.go}">Ver en la app</button></div>`).join("")}</div></div>
+  return `<div class="g pn" id="hz"><b>Los 5 peligros del Programa de Investigación Humana de la NASA</b><p class="u-c-mu u-fs-13">Cada peligro se traduce en indicadores que el tripulante puede medir. ${esc(ENVS[S.env].note)}</p><div class="rail u-fw-wrap u-ov-visible">${HAZARDS.map(h => `<div class="card u-w-min-100pct-360"><b>${h.n}</b><p class="u-fs-13 u-c-mu u-m-6-0">${h.eff}</p><details><summary>Indicadores y cuándo pedir ayuda</summary><p><b class="u-c-tx">Indicadores:</b> ${h.ind}</p><p><b class="u-c-tx">Pedir ayuda:</b> ${h.call}</p><p><b class="u-c-tx">Prevención:</b> ${h.prev}</p></details><button class="btn o sm u-mt-8" data-go="${h.go}">Ver en la app</button></div>`).join("")}</div></div>
 <div class="g pn" id="guia"><b>Guía rápida de indicadores</b>${GUIDE.map(g => `<details><summary>${g[0]}</summary><p>${g[1]}</p></details>`).join("")}</div>
 <div class="g pn" id="rec"><b>Recursos oficiales</b><ul>${LINKS.map(l => `<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join("")}</ul></div>`;
 }
@@ -2529,8 +2521,8 @@ function viewPanel() {
   const cr = crewOf(),
         items = PANEL.filter(a => S.cat === "all" || a[2] === S.cat);
   const cc = CREW.map(x => {
-    const sm = Engine.summary(x), g = Engine.gam(x);
-    return `<button class="cc ${x.id === S.crew ? "on" : ""}" data-c="${x.id}" style="--cc:${x.col}" aria-pressed="${x.id === S.crew}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div class="ci"><b>${x.name}</b><span>${x.role}</span><div class="mini">${sm.n.map((v, i) => `<i class="t${i}">${v} ${["normal", "precaución", "alerta"][i]}</i>`).join("")}</div></div><div class="lv mono">Nv ${g.lv}</div></button>`;
+    const sm = Engine.summary(x);
+    return `<button class="cc ${x.id === S.crew ? "on" : ""}" data-c="${x.id}" style="--cc:${x.col}" aria-pressed="${x.id === S.crew}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div class="ci"><b>${x.name}</b><span>${x.role}</span><div class="mini">${sm.n.map((v, i) => `<i class="t${i}">${v} ${["normal", "precaución", "alerta"][i]}</i>`).join("")}</div></div></button>`;
   }).join("");
   
   const grid = items.map(([zi, pi]) => {
@@ -2554,7 +2546,7 @@ function viewPanel() {
 "use strict";
 
 /* --- Registro por zona del cuerpo --- */
-const RL = [["huesos", "🦴 Huesos"], ["musculos", "💪 Músculos"], ["organos", "🫀 Órganos"]];
+const RL = [["huesos", "Huesos"], ["musculos", "Músculos"], ["organos", "Órganos"]];
 function regForm(z) {
   const rec = Store.get(S.crew, S.day) || { v: {} },
         note = (rec.zn || {})[z.id] || "",
@@ -2605,7 +2597,6 @@ function renderChrome() {
   const cr = crewOf(),
         al = Engine.alerts(),
         cx = Engine.cross(al),
-        gm = Engine.gam(),
         sm = Engine.summary(cr),
         n = sm.n,
         w = sm.w,
@@ -2620,8 +2611,8 @@ function renderChrome() {
   $("vas").value = k.vas;
   $("vaso").textContent = k.vas;
   $("crew").innerHTML = CREW.map(x => `<button class="crew ${x.id === S.crew ? "on" : ""}" data-c="${x.id}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div><b>${x.name}</b><span>${x.role}</span></div></button>`).join("");
-  $("hero").innerHTML = `<div>${bd(w)}<h2>${cr.name}</h2><p>${cr.role} · ${cr.bio}</p></div><div class="kp">${n.map((v, i) => `<div><small>${SN[i]}</small><b class="mono t${i}">${v}</b></div>`).join("")}<div class="u-minw-150"><small>Nivel ${gm.lv} · racha ${gm.st} d</small><div class="xp"><i style="width:${gm.pct}%"></i></div><span class="u-fs-18">${gm.b.map(b => `<span title="${b[1]}" style="opacity:${b[2] ? 1 : .25}">${b[0]}</span>`).join(" ")}</span></div></div>
-<details class="u-w-100pct"><summary>Alertas activas (${al.length})</summary>${al.length ? al.map(a => `<p>${bd(a.r.s)} ${a.z.n} · ${a.r.p.n}: <b class="mono">${fmt(a.r.p, a.r.v)} ${a.r.p.u}</b></p>`).join("") : "<p>Sin alertas: todos los parámetros están dentro de lo esperado.</p>"}${cx.map(t => `<p class="t1">⚠ ${t}</p>`).join("")}</details>`;
+  $("hero").innerHTML = `<div>${bd(w)}<h2>${cr.name}</h2><p>${cr.role} · ${cr.bio}</p></div><div class="kp">${n.map((v, i) => `<div><small>${SN[i]}</small><b class="mono t${i}">${v}</b></div>`).join("")}</div>
+<details class="u-w-100pct"><summary>Alertas activas (${al.length})</summary>${al.length ? al.map(a => `<p>${bd(a.r.s)} ${a.z.n} · ${a.r.p.n}: <b class="mono">${fmt(a.r.p, a.r.v)} ${a.r.p.u}</b></p>`).join("") : "<p>Sin alertas: todos los parámetros están dentro de lo esperado.</p>"}${cx.map(t => `<p class="t1">${t}</p>`).join("")}</details>`;
   $("tabs").innerHTML = TABS.map(t => `<button class="tab ${t.id === S.tab ? "on" : ""}" data-t="${t.id}">${t.ic ? t.ic + " " : ""}${t.n}</button>`).join("");
 }
 
@@ -3279,29 +3270,29 @@ const alertTimers = { yellow: null, red: null };
 
 const alertEls = () => ({ yellow: $("alert-toast-yellow"), red: $("alert-toast-red") });
 
-function hideAlert(level) {
-  const el = alertEls()[level];
-  clearTimeout(alertTimers[level]);
+function hideAlert(kind) {
+  const el = alertEls()[kind];
+  clearTimeout(alertTimers[kind]);
   if (el) el.classList.remove("on", "paused");
 }
 
 /* Muestra el aviso y lo oculta tras ALERT_MS. */
-function showAlert(level, html) {
-  const el = alertEls()[level];
+function showAlert(kind, html) {
+  const el = alertEls()[kind];
   if (!el) return;
 
-  hideAlert(level === "red" ? "yellow" : "red");
+  hideAlert(kind === "red" ? "yellow" : "red");
 
   el.innerHTML = html;
-  el.style.setProperty("--alert-ms", ALERT_MS[level] + "ms");
+  el.style.setProperty("--alert-ms", ALERT_MS[kind] + "ms");
 
   /* reinicia la barra de cuenta regresiva */
   el.classList.remove("on", "paused");
   void el.offsetWidth;
   el.classList.add("on");
 
-  clearTimeout(alertTimers[level]);
-  alertTimers[level] = setTimeout(() => hideAlert(level), ALERT_MS[level]);
+  clearTimeout(alertTimers[kind]);
+  alertTimers[kind] = setTimeout(() => hideAlert(kind), ALERT_MS[kind]);
 }
 
 function checkAndTriggerAlerts(force = false) {
@@ -3334,7 +3325,7 @@ function triggerYellowAlert(alertObj) {
   activeAlertTarget = alertObj;
   showAlert("yellow", `
     <div class="alert-head">
-      <span>⚠ PRECAUCIÓN [NIVEL AMARILLO]</span>
+      <span>PRECAUCIÓN</span>
       <span class="alert-go">Ir →</span>
     </div>
     <div class="alert-body">${alertValue(alertObj)}</div>
@@ -3345,7 +3336,7 @@ function triggerYellowAlert(alertObj) {
 function triggerRedAlert(alertObj) {
   activeAlertTarget = alertObj;
   showAlert("red", `
-    <button type="button" class="alert-x" data-alert-close="red" aria-label="Descartar aviso">✕</button>
+    <button type="button" class="alert-x" data-alert-close="red" aria-label="Descartar aviso"><span class="icon-close" aria-hidden="true"></span></button>
     <div class="alert-head">
       <span>[ ! ] ALERTA CRÍTICA</span>
       <span class="alert-go">Ir →</span>
@@ -3355,7 +3346,7 @@ function triggerRedAlert(alertObj) {
   `);
 }
 
-/* Listener delegado: cerrar aviso, ir a la zona, y botón "Cerrar" del diálogo */
+/* Un solo listener: cerrar aviso, ir a la zona y botón "Cerrar" del diálogo */
 document.addEventListener("click", e => {
   const close = e.target.closest("[data-alert-close]");
   if (close) {
@@ -3378,17 +3369,17 @@ document.addEventListener("click", e => {
 });
 
 /* Pausa la cuenta regresiva mientras el cursor o el foco están sobre el aviso */
-["yellow", "red"].forEach(level => {
-  const el = alertEls()[level];
+["yellow", "red"].forEach(kind => {
+  const el = alertEls()[kind];
   if (!el) return;
   const pause = () => {
-    clearTimeout(alertTimers[level]);
+    clearTimeout(alertTimers[kind]);
     el.classList.add("paused");
   };
   const resume = () => {
     if (!el.classList.contains("on")) return;
     el.classList.remove("paused");
-    alertTimers[level] = setTimeout(() => hideAlert(level), 2000);
+    alertTimers[kind] = setTimeout(() => hideAlert(kind), 2000);
   };
   el.addEventListener("mouseenter", pause);
   el.addEventListener("mouseleave", resume);

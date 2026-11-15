@@ -2,7 +2,7 @@
 "use strict";
 
 /* --- Registro por zona del cuerpo --- */
-const RL = [["huesos", "🦴 Huesos"], ["musculos", "💪 Músculos"], ["organos", "🫀 Órganos"]];
+const RL = [["huesos", "Huesos"], ["musculos", "Músculos"], ["organos", "Órganos"]];
 function regForm(z) {
   const rec = Store.get(S.crew, S.day) || { v: {} },
         note = (rec.zn || {})[z.id] || "",
@@ -53,7 +53,6 @@ function renderChrome() {
   const cr = crewOf(),
         al = Engine.alerts(),
         cx = Engine.cross(al),
-        gm = Engine.gam(),
         sm = Engine.summary(cr),
         n = sm.n,
         w = sm.w,
@@ -68,8 +67,8 @@ function renderChrome() {
   $("vas").value = k.vas;
   $("vaso").textContent = k.vas;
   $("crew").innerHTML = CREW.map(x => `<button class="crew ${x.id === S.crew ? "on" : ""}" data-c="${x.id}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div><b>${x.name}</b><span>${x.role}</span></div></button>`).join("");
-  $("hero").innerHTML = `<div>${bd(w)}<h2>${cr.name}</h2><p>${cr.role} · ${cr.bio}</p></div><div class="kp">${n.map((v, i) => `<div><small>${SN[i]}</small><b class="mono t${i}">${v}</b></div>`).join("")}<div class="u-minw-150"><small>Nivel ${gm.lv} · racha ${gm.st} d</small><div class="xp"><i style="width:${gm.pct}%"></i></div><span class="u-fs-18">${gm.b.map(b => `<span title="${b[1]}" style="opacity:${b[2] ? 1 : .25}">${b[0]}</span>`).join(" ")}</span></div></div>
-<details class="u-w-100pct"><summary>Alertas activas (${al.length})</summary>${al.length ? al.map(a => `<p>${bd(a.r.s)} ${a.z.n} · ${a.r.p.n}: <b class="mono">${fmt(a.r.p, a.r.v)} ${a.r.p.u}</b></p>`).join("") : "<p>Sin alertas: todos los parámetros están dentro de lo esperado.</p>"}${cx.map(t => `<p class="t1">⚠ ${t}</p>`).join("")}</details>`;
+  $("hero").innerHTML = `<div>${bd(w)}<h2>${cr.name}</h2><p>${cr.role} · ${cr.bio}</p></div><div class="kp">${n.map((v, i) => `<div><small>${SN[i]}</small><b class="mono t${i}">${v}</b></div>`).join("")}</div>
+<details class="u-w-100pct"><summary>Alertas activas (${al.length})</summary>${al.length ? al.map(a => `<p>${bd(a.r.s)} ${a.z.n} · ${a.r.p.n}: <b class="mono">${fmt(a.r.p, a.r.v)} ${a.r.p.u}</b></p>`).join("") : "<p>Sin alertas: todos los parámetros están dentro de lo esperado.</p>"}${cx.map(t => `<p class="t1">${t}</p>`).join("")}</details>`;
   $("tabs").innerHTML = TABS.map(t => `<button class="tab ${t.id === S.tab ? "on" : ""}" data-t="${t.id}">${t.ic ? t.ic + " " : ""}${t.n}</button>`).join("");
 }
 

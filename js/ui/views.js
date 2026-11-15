@@ -44,7 +44,7 @@ function viewTests() {
 }
 
 function viewRisks() {
-  return `<div class="g pn" id="hz"><b>Los 5 peligros del Programa de Investigación Humana de la NASA</b><p class="u-c-mu u-fs-13">Cada peligro se traduce en indicadores que el tripulante puede medir. ${esc(ENVS[S.env].note)}</p><div class="rail u-fw-wrap u-ov-visible">${HAZARDS.map(h => `<div class="card u-w-min-100pct-360"><div class="u-fs-26">${h.ic}</div><b>${h.n}</b><p class="u-fs-13 u-c-mu u-m-6-0">${h.eff}</p><details><summary>Indicadores y cuándo pedir ayuda</summary><p><b class="u-c-tx">Indicadores:</b> ${h.ind}</p><p><b class="u-c-tx">Pedir ayuda:</b> ${h.call}</p><p><b class="u-c-tx">Prevención:</b> ${h.prev}</p></details><button class="btn o sm u-mt-8" data-go="${h.go}">Ver en la app</button></div>`).join("")}</div></div>
+  return `<div class="g pn" id="hz"><b>Los 5 peligros del Programa de Investigación Humana de la NASA</b><p class="u-c-mu u-fs-13">Cada peligro se traduce en indicadores que el tripulante puede medir. ${esc(ENVS[S.env].note)}</p><div class="rail u-fw-wrap u-ov-visible">${HAZARDS.map(h => `<div class="card u-w-min-100pct-360"><b>${h.n}</b><p class="u-fs-13 u-c-mu u-m-6-0">${h.eff}</p><details><summary>Indicadores y cuándo pedir ayuda</summary><p><b class="u-c-tx">Indicadores:</b> ${h.ind}</p><p><b class="u-c-tx">Pedir ayuda:</b> ${h.call}</p><p><b class="u-c-tx">Prevención:</b> ${h.prev}</p></details><button class="btn o sm u-mt-8" data-go="${h.go}">Ver en la app</button></div>`).join("")}</div></div>
 <div class="g pn" id="guia"><b>Guía rápida de indicadores</b>${GUIDE.map(g => `<details><summary>${g[0]}</summary><p>${g[1]}</p></details>`).join("")}</div>
 <div class="g pn" id="rec"><b>Recursos oficiales</b><ul>${LINKS.map(l => `<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join("")}</ul></div>`;
 }
@@ -53,8 +53,8 @@ function viewPanel() {
   const cr = crewOf(),
         items = PANEL.filter(a => S.cat === "all" || a[2] === S.cat);
   const cc = CREW.map(x => {
-    const sm = Engine.summary(x), g = Engine.gam(x);
-    return `<button class="cc ${x.id === S.crew ? "on" : ""}" data-c="${x.id}" style="--cc:${x.col}" aria-pressed="${x.id === S.crew}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div class="ci"><b>${x.name}</b><span>${x.role}</span><div class="mini">${sm.n.map((v, i) => `<i class="t${i}">${v} ${["normal", "precaución", "alerta"][i]}</i>`).join("")}</div></div><div class="lv mono">Nv ${g.lv}</div></button>`;
+    const sm = Engine.summary(x);
+    return `<button class="cc ${x.id === S.crew ? "on" : ""}" data-c="${x.id}" style="--cc:${x.col}" aria-pressed="${x.id === S.crew}"><div class="av" style="background:${x.col};color:#06101f">${x.name.split(" ")[1][0]}</div><div class="ci"><b>${x.name}</b><span>${x.role}</span><div class="mini">${sm.n.map((v, i) => `<i class="t${i}">${v} ${["normal", "precaución", "alerta"][i]}</i>`).join("")}</div></div></button>`;
   }).join("");
   
   const grid = items.map(([zi, pi]) => {

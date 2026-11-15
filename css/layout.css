@@ -256,20 +256,6 @@ button {
   font-size: 20px;
 }
 
-.xp {
-  height: 6px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, .08);
-  overflow: hidden;
-  min-width: 120px;
-}
-
-.xp i {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #7fb2ff, #9b6bff);
-}
-
 .bd {
   display: inline-flex;
   align-items: center;
