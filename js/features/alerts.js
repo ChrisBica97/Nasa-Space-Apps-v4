@@ -9,9 +9,10 @@ const ALERT_MS = { yellow: 6500, red: 5000 };
 
 let activeAlertTarget = null;
 let lastAlertSignature = "";
-const alertTimers = { yellow: null, red: null };
+const alertTimers = { yellow: null, red: null, vital: null };
+let lastVitalSig = "";
 
-const alertEls = () => ({ yellow: $("alert-toast-yellow"), red: $("alert-toast-red") });
+const alertEls = () => ({ yellow: $("alert-toast-yellow"), red: $("alert-toast-red"), vital: $("alert-toast-vital") });
 
 function hideAlert(kind) {
   const el = alertEls()[kind];
