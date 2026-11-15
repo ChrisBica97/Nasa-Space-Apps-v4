@@ -67,6 +67,21 @@ function showVital(e) {
 function checkAndTriggerAlerts(force = false) {
   const al = Engine.alerts();
 
+    const em = findEmergencies();
+  if (em.length) {
+    const e = em[0];
+    const vs = `${e.cr.id}|${S.day}|${e.z.id}.${e.r.p.id}`;
+    if (force || vs !== lastVitalSig) {
+      lastVitalSig = vs;
+      hideAlert("yellow");
+      hideAlert("red");
+      showVital(e);
+    }
+    return;
+  }
+  lastVitalSig = "";
+  hideAlert("vital");
+
   if (!al.length) {
     lastAlertSignature = "";
     activeAlertTarget = null;
